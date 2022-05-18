@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tp_cm_2022/ui/screens/add_company.dart';
-import 'package:tp_cm_2022/ui/screens/home.dart';
+
+import 'ui/screens/add_company.dart';
+import 'ui/screens/home.dart';
 
 void main() {
   runApp(const MyApp());
