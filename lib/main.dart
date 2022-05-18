@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'ui/screens/add_company.dart';
 import 'ui/screens/home.dart';
+import 'ui/screens/search_address.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/home': (context) => const Home(),
         '/addCompany': (context) => AddCompany(),
+        '/searchAddress': (context) => const SearchAddress(),
       },
       initialRoute: '/home',
     );

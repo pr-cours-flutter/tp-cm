@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
 
+import '../../models/address.dart';
 import '../../models/company.dart';
 
 class Home extends StatefulWidget {
@@ -11,9 +13,21 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final List<Company> _companies = [
-    const Company('0', 'Entreprise 1'),
-    const Company('1', 'Entreprise 2'),
-    const Company('2', 'Entreprise 3'),
+    Company(
+        '0',
+        'Entreprise 1',
+        Address('Place du Ralliement', 'Angers', '49000',
+            LatLng(47.471344, -0.551602))),
+    Company(
+        '1',
+        'Entreprise 2',
+        Address('Place du Ralliement', 'Angers', '49000',
+            LatLng(47.471344, -0.551602))),
+    Company(
+        '2',
+        'Entreprise 3',
+        Address('Place du Ralliement', 'Angers', '49000',
+            LatLng(47.471344, -0.551602))),
   ];
 
   @override
@@ -28,6 +42,8 @@ class _HomeState extends State<Home> {
             return ListTile(
               onTap: () {},
               title: Text(company.name),
+              subtitle:
+                  Text('${company.address.street}, ${company.address.city}'),
             );
           },
           itemCount: _companies.length),

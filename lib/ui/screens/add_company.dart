@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../models/address.dart';
 import '../../models/company.dart';
 
 class AddCompany extends StatelessWidget {
   AddCompany({Key? key}) : super(key: key);
 
   final GlobalKey<FormState> _formKey = GlobalKey();
-  final TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _nameEditingController = TextEditingController();
+  final TextEditingController _addressEditingController =
+      TextEditingController();
+  Address? address;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +28,7 @@ class AddCompany extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: TextFormField(
-                  controller: _textEditingController,
+                  controller: _nameEditingController,
                   validator: (String? value) {
                     if (value == null || value.isEmpty) {
                       return 'Le nom doit être renseigné';
@@ -35,6 +39,33 @@ class AddCompany extends StatelessWidget {
                   decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.apartment),
                       labelText: "Nom de l'entreprise",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: TextFormField(
+                  controller: _addressEditingController,
+                  validator: (String? value) {
+                    if (value == null || value.isEmpty) {
+                      return "L'adresse doit être renseigné";
+                    } else {
+                      return null;
+                    }
+                  },
+                  readOnly: true,
+                  onTap: () async {
+                    address = await Navigator.of(context)
+                        .pushNamed('/searchAddress') as Address?;
+                    if (address != null) {
+                      _addressEditingController.text =
+                          '${address!.street}, ${address!.city}';
+                    }
+                  },
+                  decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.location_pin),
+                      labelText: "Addresse de l'entreprise",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10))),
                 ),
@@ -52,10 +83,10 @@ class AddCompany extends StatelessWidget {
   }
 
   void validate(BuildContext context) {
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate() && address != null) {
       final String id = const Uuid().v1();
-      final String name = _textEditingController.text;
-      final Company company = Company(id, name);
+      final String name = _nameEditingController.text;
+      final Company company = Company(id, name, address!);
       Navigator.of(context).pop(company);
     }
   }
