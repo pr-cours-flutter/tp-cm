@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../blocs/company_cubit.dart';
 import '../../models/address.dart';
 import '../../models/company.dart';
 
@@ -87,7 +89,8 @@ class AddCompany extends StatelessWidget {
       final String id = const Uuid().v1();
       final String name = _nameEditingController.text;
       final Company company = Company(id, name, address!);
-      Navigator.of(context).pop(company);
+      BlocProvider.of<CompanyCubit>(context, listen: false).addCompany(company);
+      Navigator.of(context).pop();
     }
   }
 }
