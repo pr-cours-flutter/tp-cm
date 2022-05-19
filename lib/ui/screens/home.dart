@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:tp_cm_2022/repositories/preferences_repository.dart';
 
-import '../../models/address.dart';
 import '../../models/company.dart';
 
 class Home extends StatefulWidget {
@@ -12,23 +11,19 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final List<Company> _companies = [
-    Company(
-        '0',
-        'Entreprise 1',
-        Address('Place du Ralliement', 'Angers', '49000',
-            LatLng(47.471344, -0.551602))),
-    Company(
-        '1',
-        'Entreprise 2',
-        Address('Place du Ralliement', 'Angers', '49000',
-            LatLng(47.471344, -0.551602))),
-    Company(
-        '2',
-        'Entreprise 3',
-        Address('Place du Ralliement', 'Angers', '49000',
-            LatLng(47.471344, -0.551602))),
-  ];
+  final PreferencesRepository _preferencesRepository = PreferencesRepository();
+
+  List<Company> _companies = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _preferencesRepository.loadCompanies().then((value) {
+      setState(() {
+        _companies = value;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +51,7 @@ class _HomeState extends State<Home> {
             setState(() {
               _companies.add(company);
             });
+            _preferencesRepository.saveCompanies(_companies);
           }
         },
         child: const Icon(Icons.add),

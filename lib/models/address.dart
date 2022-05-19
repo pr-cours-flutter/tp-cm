@@ -21,4 +21,19 @@ class Address {
 
     return Address(street, postcode, city, position);
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'street': street,
+      'city': city,
+      'postcode': postcode,
+      'latitude': position.latitude,
+      'longitude': position.longitude,
+    };
+  }
+
+  factory Address.fromJson(Map<String, dynamic> json) {
+    return Address(json['street'], json['city'], json['postcode'],
+        LatLng(json['latitude'], json['longitude']));
+  }
 }
